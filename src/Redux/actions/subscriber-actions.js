@@ -481,7 +481,6 @@ export const getUserSubscriptionExpired = (data) => async dispatch => {
 
 export const getAudience = (data) => async dispatch => {
   try {
-
     dispatch({ type: POST_AUDIENCE_DATA_REQUEST, payload: true });
     if (data.user_id) {
       var audience_res = [];
@@ -501,7 +500,6 @@ export const getAudience = (data) => async dispatch => {
                   var val = Object.keys(subscribeobj);
 
                   if (i > Object.keys(subscribeobj).length - 1) {
-
                     dispatch({ type: GET_AUDIENCE_DATA_SUCCESS, payload: audience_res });
                     return;
                   }

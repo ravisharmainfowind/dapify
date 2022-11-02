@@ -37,7 +37,7 @@ export const DateDropDown = (props) => {
           
             <option value="">DD</option>
             {date_list.map((dates) => (
-            <option selected={selectDate == dates ? 'selected' : ''} value={dates}>{dates}</option>
+            <option key={dates} selected={selectDate == dates ? 'selected' : ''} value={dates}>{dates}</option>
             ))}
           
         </>
@@ -93,7 +93,7 @@ export const MonthDropDown = (props) => {
             <option value="">MM</option>
             {month_list.map((month) => (
 
-                <option selected={selectMonth == month.id ? 'selected' : ''}  value={month.id}>{month.value}</option>
+                <option key={month.id} selected={selectMonth == month.id ? 'selected' : ''}  value={month.id}>{month.value}</option>
             ))}
         </>
     );
@@ -126,9 +126,8 @@ export const YearDropDown = (props) => {
     return (
         <>
             <option value="">YYYY</option>
-            {year_list.map((yr) => (
-
-                <option selected={selectYear == yr ? 'selected' : ''} value={yr}>{yr}</option>
+            {year_list.map((yr) => (        
+                <option key={yr} selected={selectYear == yr ? 'selected' : ''} value={yr}>{yr}</option>
             ))}
         </>
     );

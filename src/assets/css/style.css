@@ -2945,3 +2945,9 @@ button.btn-close {
     padding: 50px;
 }
 
+.dataNfound {
+    margin: 20px 0 30px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500; 
+}

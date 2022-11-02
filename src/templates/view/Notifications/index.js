@@ -28,7 +28,7 @@ function Notifications(props) {
         
     },[authuser.uid]);
 
-    console.log('subscriberCount',subscriberCount);
+    console.log('subscriberCount100',subscriberCount);
     return (
        
         <div className='main-page-wrapper'>
@@ -57,7 +57,7 @@ function Notifications(props) {
                     </div>
                 </div>
             </div>
-
+            <Footer/>
         </div>
     </div>
     )

@@ -10,6 +10,7 @@ import { useSelector, connect } from "react-redux";
 import MusicComponent from '../../components/musicComponent';
 import Loader from '../../../utils/Loader';
 import { Button, CircularProgress } from '@material-ui/core'
+import Footer from '../footer';
 
 function ContentBookmark(props, { history }) {
 
@@ -75,7 +76,7 @@ function ContentBookmark(props, { history }) {
                                         )
                                     ))
                                   
-                                    ): <span>There is no post bookmark...</span>
+                                    ):<div className="middleSection-add-content saves-post-sec"> <p className='dataNfound'>There's no bookmarks available...</p> </div>
                                 } 
                             </div>
                             {   user_music_bookmark && (
@@ -89,6 +90,8 @@ function ContentBookmark(props, { history }) {
                         </div>
                     </div>
                 </div>
+
+                <Footer />
 
             </div>
         </div>

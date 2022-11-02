@@ -27,6 +27,7 @@ function FacebookConnect(props) {
 
     const onSocialLogin = async (event) => {
         setLoader(true);
+        console.log('userDetailsById.uid==',userDetailsById.uid)
         if(userDetailsById.uid){
             var accountLinked = false;
             if(userDetailsById?.InsightsTokenData)
@@ -46,7 +47,7 @@ function FacebookConnect(props) {
         <div className="text-center mt-3">
             {isLoader ? <Loader isLoader={true} /> : null}
             <p className="mb-2">Connect with facebook to check insights.</p>
-            <Button onClick={e => onSocialLogin('facebook')} className="btn btn-danger">Connect with facebook</Button>
+            <Button onClick={(e) => onSocialLogin('facebook')} className="btn btn-danger">Connect with facebook</Button>
         </div>
     )
 }

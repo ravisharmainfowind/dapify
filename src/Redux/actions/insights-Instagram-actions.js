@@ -29,6 +29,7 @@ export const getInstgramInsightsUser = (uid,accountLinked) => async dispatch => 
     if(accountLinked === true){
       responseToken = await auth.signInWithPopup(provider_type)
     }else{
+      alert(accountLinked)
       responseToken = await auth.currentUser.linkWithPopup(provider_type)
     }
     

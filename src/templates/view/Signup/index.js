@@ -1,4 +1,4 @@
-import React, { useEffect,useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useForm } from 'react-hook-form';
 import { Link } from "react-router-dom";
 import * as moment from 'moment';
@@ -102,7 +102,7 @@ const SignUp = (props, { history }) => {
       const data = {
         email: event.email,
         password: event.password,
-      //  user_type: event.user_type,
+        //  user_type: event.user_type,
         username: event.user_name,
         user_image: UserImage,
         dob: birthdate,//new Date(birthdate).toLocaleDateString(),
@@ -113,6 +113,26 @@ const SignUp = (props, { history }) => {
       await props.register(data, props.history);
     }
   };
+
+  const validateUser = (username) => {
+    let isValid = true;
+    var regex = /^[A-Za-z0-9 ]+$/
+    var wSpace = /\s/
+
+    let isValidW = wSpace.test(username);
+
+    isValid = regex.test(username);
+    if (!isValid) {
+      return false;
+    } else {
+      if (isValidW) {
+        return false;
+      }
+      else {
+        return true;
+      }
+    }
+  }
 
   return (
 
@@ -139,8 +159,8 @@ const SignUp = (props, { history }) => {
 
                 <div className="change-photo">
                   <div className="change-photo-inner">
-                  <label for="file">change-photo</label>
-                  <input className="foo" name="user_image" type="file" id="file" onChange={handleChange} />
+                    <label for="file">change-photo</label>
+                    <input className="foo" name="user_image" type="file" id="file" onChange={handleChange} />
                   </div>
                   <div className="make-sure">Make sure you upload a Picture to get started!</div>
                 </div>
@@ -155,6 +175,7 @@ const SignUp = (props, { history }) => {
                     <input type="text" className="form-control log-inp" name="user_name" {...register("user_name", {
                       required: true,
                       maxLength: 30,
+                      validate: validateUser
                     })} />
                     {errors?.user_name?.type === "required" && (
                       <p className="errMsg">This field is required</p>
@@ -164,6 +185,11 @@ const SignUp = (props, { history }) => {
                         User name cannot exceed 30 characters
                       </p>
                     )}
+                     {errors?.user_name?.type === "validate" && (
+                      <p className="errMsg">
+                        User name cannot contain special characters(!,@$,%,_) or blank space
+                      </p>
+                    )}
                   </div>
                   <div className="form-row1">
                     <label>EMAIL</label>
@@ -171,7 +197,7 @@ const SignUp = (props, { history }) => {
                       required: true,
                       // pattern:
                       //   /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                      validate: emailValidation  
+                      validate: emailValidation
                     })} />
                     {errors?.email?.type === "required" && (
                       <p className="errMsg">This field is required</p>
@@ -191,7 +217,7 @@ const SignUp = (props, { history }) => {
                       pattern:
                         /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/i,
                     })} />
-                    <div onClick={() => togglePassword('pass')} className="rd-img"><img src={passwordShown ? eye_img : eye_slash_img} alt='' /></div>                  
+                    <div onClick={() => togglePassword('pass')} className="rd-img"><img src={passwordShown ? eye_img : eye_slash_img} alt='' /></div>
                     {errors?.password?.type === "required" && (
                       <p className="errMsg">This field is required</p>
                     )}
@@ -275,7 +301,7 @@ const SignUp = (props, { history }) => {
                   </p>
 
                   <p>
-                  <a>Privacy Policy</a>
+                    <a>Privacy Policy</a>
                     <label className="cus-check">
                       <input id="privacyPolicy" type="checkbox" name="privacyPolicy"
                         {...register('privacyPolicy', {
@@ -290,7 +316,7 @@ const SignUp = (props, { history }) => {
                 </div>
 
                 <div className="login-via create-ac">
-                  <Button  type="submit" className="log-btn btn">
+                  <Button type="submit" className="log-btn btn">
                     Create an account
                   </Button>
                   <div className="ald">Already have an account?  <Link to="/">Login</Link></div>

@@ -123,6 +123,15 @@ function ConversationView(props) {
 
     }, [ChatId]);
 
+    useEffect(() => {
+        const data = {
+            user_id: authuser.uid,
+            type: 'search',
+            search_keyword: 'm',
+        }
+        props.getAudience(data);
+    }, [authuser.uid])
+
 
 
     const enterChatRoom = async (roomname) => {
@@ -185,7 +194,7 @@ function ConversationView(props) {
     }
 
     const handleRemoveRoom = () => {
-      
+
         setRoom('');
         setStartChat('');
         // localStorage.removeItem("lestener_Chat_id");
@@ -193,68 +202,63 @@ function ConversationView(props) {
     return (
 
         <div className={`chat-section-main ${room !== '' ? "UserChatOpen" : startChat === "all" ? "UserChatOpen" : ""}`}>
-            <div className="chat-section-left">
-                <div className="chat-left-inn">
-                    <div className="chat-top-search">
-                        <h2>Compose New Message</h2>
-                        {RecImg !== '' ?
-                            <div className='chat-search-items'>
-                                <span>To :</span>
-                                <div className='chat-search-item'>
-                                    <div className='chat-lft-item'>
-                                        <b>{RecName}</b> <span><img src={RecImg} alt='' /></span>
+             {audienceData.length > 0  || roomList.length > 0 ? ( 
+                <div className="chat-section-left">
+                    <div className="chat-left-inn">
+                        <div className="chat-top-search">
+                            <h2>Compose New Message</h2>
+                            {RecImg !== '' ?
+                                <div className='chat-search-items'>
+                                    <span>To :</span>
+                                    <div className='chat-search-item'>
+                                        <div className='chat-lft-item'>
+                                            <b>{RecName}</b> <span><img src={RecImg} alt='' /></span>
+                                        </div>
+                                        <div onClick={handelCloseCompose} className='chat-close-item'>X</div>
                                     </div>
-                                    <div onClick={handelCloseCompose} className='chat-close-item'>X</div>
                                 </div>
-                            </div>
-                            :
-                            <div className="chat-search-users">
-                                <span>To :</span> <input type="text" name="roomname" id="roomname" value={ChatUserKeyword} onChange={handleChatUser} />
-                            </div>
-                        }
+                                :
+                                <div className="chat-search-users">
+                                    <span>To :</span> <input type="text" name="roomname" id="roomname" value={ChatUserKeyword} onChange={handleChatUser} />
+                                </div>
+                            }
 
-                    </div>
-                    <div className="chat-inn">
-                        <div className='chat-btn-subscribers'>
-                            <button type="button" onClick={handleChatWithAllSubscriber} className='btn'>All Subscribers</button>
                         </div>
+                        <div className="chat-inn">
+                            <div className='chat-btn-subscribers'>
+                                <button type="button" onClick={handleChatWithAllSubscriber} className='btn'>All Subscribers</button>
+                            </div>
 
-                        {
-                            audienceData.length > 0 && ChatUserKeyword !== '' && closeSearch === 'close' ? (
-                                <div className="chat-view-users">
-                                    <ul>
+                            {
+                                audienceData.length > 0 && closeSearch === 'close' ? (
+                                    <div className="chat-view-users">
+                                        <ul>
+                                            {
+                                                audienceData.map((audienceContent, i) => (
+                                                    <li>
+                                                        <div action onClick={() => { save(audienceContent.aud_id, audienceContent.aud_profile, audienceContent.aud_name) }} className="user-list-item">
 
-                                        {
-                                            audienceData.map((audienceContent, i) => (
-                                                <li>
-                                                    <div action onClick={() => { save(audienceContent.aud_id, audienceContent.aud_profile, audienceContent.aud_name) }} className="user-list-item">
-
-                                                        <div className="chat-item-top">
-                                                            <div className="user-item-left">
-                                                                <div className="user-item-img">
-                                                                    <span><img src={audienceContent?.aud_profile !== '' ? audienceContent?.aud_profile : user_img} alt='' /></span>
+                                                            <div className="chat-item-top">
+                                                                <div className="user-item-left">
+                                                                    <div className="user-item-img">
+                                                                        <span><img src={audienceContent?.aud_profile !== '' ? audienceContent?.aud_profile : user_img} alt='' /></span>
+                                                                    </div>
+                                                                    <div className="user-item-name">{audienceContent.aud_name}</div>
                                                                 </div>
-                                                                <div className="user-item-name">{audienceContent.aud_name}</div>
                                                             </div>
+
                                                         </div>
+                                                    </li>
+                                                ))
+                                            }
 
-                                                    </div>
-                                                </li>
-                                            ))
-                                        }
-
-                                    </ul>
-                                </div>
-                            ) :
-                                <div className="chat-view-users">
-                                    <ul>
-
-                                        {roomList.length > 0 ? (
-
-                                            roomList.sort(sortByDate)
+                                        </ul>
+                                    </div>
+                                ) :
+                                    <div className="chat-view-users">
+                                        <ul>
+                                            {roomList.length > 0 ? (roomList.sort(sortByDate)
                                                 .map((item, idx) => (
-
-
                                                     <li>
                                                         <div action onClick={() => { enterChatRoom(item.key, item.reciever_id) }} className="user-list-item">
                                                             <div className="chat-item-top">
@@ -285,30 +289,31 @@ function ConversationView(props) {
                                                         </div>
                                                     </li>
                                                 ))
-                                        ) : ''
-                                        }
-                                    </ul>
-
-
-                                </div>
-                        }
+                                            ) : ''
+                                            }
+                                        </ul>
+                                    </div>
+                            }
+                        </div>
                     </div>
                 </div>
-            </div>
+                ) : <p className='dataNfound' style={{width: '100%'}}>There's no messages...</p>}
 
-            <div className="chat-section-right">
-                <button onClick={handleRemoveRoom} className="btn"><img src={backarrow} alt="" /></button>
-                <div className="chat-right-inn">
-                    {startChat === 'single' && room !== '' ? (
+             {audienceData.length > 0 || roomList.length > 0 ? (
+                <div className="chat-section-right">
+                    <button onClick={handleRemoveRoom} className="btn"><img src={backarrow} alt="" /></button>
+                    <div className="chat-right-inn">
+                        {startChat === 'single' && room !== '' ? (
 
-                        <Messages room_id={room} />
-                    ) :
-                        startChat === 'all' && audienceData.length > 0 ? (
-                            <GroupMessages room_id="all" />
+                            <Messages room_id={room} />
                         ) :
-                            <DefaultMessages />}
+                            startChat === 'all' && audienceData.length > 0 ? (
+                                <GroupMessages room_id="all" />
+                            ) :
+                                <DefaultMessages />}
+                    </div>
                 </div>
-            </div>
+              ) : null}
         </div>
 
     );

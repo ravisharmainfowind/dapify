@@ -108,8 +108,8 @@ function NotificationsView(props,{history}) {
                                 </Dropdown.Menu>
                             </Dropdown>
                         </div>
-                    </div>) :'No Data Found.'
-                ):'No Data Found.'
+                    </div>) :<p className='dataNfound'>There's no Notifications available...</p>
+                ):<p className='dataNfound'>There's no Notifications available...</p>
             }
 
             {   notification_data && (
